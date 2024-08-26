@@ -4,3 +4,5 @@ git:
 	ansible-playbook git.yml
 nginx:
 	ansible-playbook nginx.yml
+users:
+	ansible-playbook users.yml
