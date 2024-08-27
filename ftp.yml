@@ -43,7 +43,7 @@
       ansible.builtin.shell: /root/ftpasswd --passwd --file=/etc/proftpd.passwd --name=username --uid=600 --gid=600 --home=/home/bitrix/ext_www/sitename.ru --shell=/sbin/nologin
 
     - name: save changes
-      command: "{{ iten }}"
+      command: "{{ item }}"
       loop:
         - chmod 600 /etc/proftpd.passwd
         - systemctl restart proftpd
