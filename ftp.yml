@@ -1,0 +1,51 @@
+- hosts: webservers
+  tasks:
+    - name: check proftpd service
+      command: ps axu | grep ftp
+      register: result
+      ignore_errors: yes
+
+    - name: installing proftpd if it doesn't exist
+      package:
+        name: proftpd
+        state: present
+      when: result.rc != 0
+
+    - name: enable proftpd
+      command: systemctl enable proftpd
+
+    - name: move old proftpd.conf
+      command: mv /etc/proftpd/proftpd.conf /etc/proftpd/proftpd.conf.origin
+
+    - name: create new proftpd.conf
+      ansible.builtin.copy:
+        src: /home/ivan/ansible_learn/proftpd.conf
+        dest: /etc/proftpd/proftpd.conf
+
+    - name: create user_data file
+      command: "{{ item }}"
+      loop:
+        - touch /etc/proftpd.passwd
+        - chown root:root /etc/proftpd.passwd
+        - chmod 600 /etc/proftpd.passwd
+
+    - name: restart proftpd service
+      command: systemctl restart proftpd
+
+    - name: install ftpasswd
+      command: "{{ item }}"
+      loop:
+        - cd /root
+        - wget http://www.castaglia.org/proftpd/contrib/ftpasswd
+        - chmod 755 ftpasswd
+
+    - name: create new ftp user
+      ansible.builtin.shell: /root/ftpasswd --passwd --file=/etc/proftpd.passwd --name=username --uid=600 --gid=600 --home=/home/bitrix/ext_www/sitename.ru --shell=/sbin/nologin
+
+    - name: save changes
+      command: "{{ iten }}"
+      loop:
+        - chmod 600 /etc/proftpd.passwd
+        - systemctl restart proftpd
+
+

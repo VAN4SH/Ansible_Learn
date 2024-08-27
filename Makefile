@@ -6,3 +6,5 @@ nginx:
 	ansible-playbook nginx.yml
 users:
 	ansible-playbook users.yml
+ftp:
+	ansible-playbook ftp.yml

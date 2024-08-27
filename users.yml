@@ -21,7 +21,7 @@
 
     - name: Update gitconfig
       ansible.builtin.copy:
-        src: /home/ivan/ansible_learn/gitconfig.j2
+        src: /home/ivan/ansible_learn/gitconfig.conf.j2
         dest: "/home/{{ item.name }}/.gitconfig"
       loop:
         - { name: jaime }
