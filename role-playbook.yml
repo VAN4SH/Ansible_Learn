@@ -1,0 +1,10 @@
+---
+
+- hosts: webservers
+  become: yes
+  vars:
+    username: "ivan"
+    email: "ivan@example.com"
+    ssh_public_key: "your-ssh-public-key-here"
+  roles:
+    - van4sh.environment

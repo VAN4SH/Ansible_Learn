@@ -8,3 +8,6 @@ users:
 	ansible-playbook users.yml
 ftp:
 	ansible-playbook ftp.yml
+role:
+	ansible-playbook role-playbook.yml
+
