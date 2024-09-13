@@ -1,0 +1,16 @@
+- hosts: webservers
+  tasks:
+    - name: install git
+      ansible.builtin.apt:
+        name: git
+        state: present
+        update_cache: yes
+      become: yes
+
+    - name: add ssh key(from file) using a collection
+      ansible.posix.authorized_key:
+        user: jaime
+        state: present
+        key: "{{ lookup('file', '/home/ivan/.ssh/id_rsa.pub') }}"
+
+
